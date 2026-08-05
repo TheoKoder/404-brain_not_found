@@ -34,12 +34,13 @@
             txtNewUserP = new TextBox();
             btnRegister = new Button();
             lblErrorPassword = new Label();
+            lblRegister = new Label();
             SuspendLayout();
             // 
             // lblUserName
             // 
             lblUserName.AutoSize = true;
-            lblUserName.Location = new Point(309, 42);
+            lblUserName.Location = new Point(268, 111);
             lblUserName.Name = "lblUserName";
             lblUserName.Size = new Size(97, 15);
             lblUserName.TabIndex = 0;
@@ -48,7 +49,7 @@
             // lblPassword
             // 
             lblPassword.AutoSize = true;
-            lblPassword.Location = new Point(309, 152);
+            lblPassword.Location = new Point(268, 178);
             lblPassword.Name = "lblPassword";
             lblPassword.Size = new Size(94, 15);
             lblPassword.TabIndex = 0;
@@ -56,14 +57,14 @@
             // 
             // txtNewUserN
             // 
-            txtNewUserN.Location = new Point(268, 95);
+            txtNewUserN.Location = new Point(268, 141);
             txtNewUserN.Name = "txtNewUserN";
             txtNewUserN.Size = new Size(185, 23);
             txtNewUserN.TabIndex = 1;
             // 
             // txtNewUserP
             // 
-            txtNewUserP.Location = new Point(268, 192);
+            txtNewUserP.Location = new Point(268, 209);
             txtNewUserP.Name = "txtNewUserP";
             txtNewUserP.Size = new Size(185, 23);
             txtNewUserP.TabIndex = 1;
@@ -82,17 +83,27 @@
             // 
             lblErrorPassword.AutoSize = true;
             lblErrorPassword.ForeColor = Color.Firebrick;
-            lblErrorPassword.Location = new Point(277, 219);
+            lblErrorPassword.Location = new Point(268, 239);
             lblErrorPassword.Name = "lblErrorPassword";
             lblErrorPassword.Size = new Size(38, 15);
             lblErrorPassword.TabIndex = 3;
             lblErrorPassword.Text = "label1";
+            // 
+            // lblRegister
+            // 
+            lblRegister.AutoSize = true;
+            lblRegister.Location = new Point(268, 37);
+            lblRegister.Name = "lblRegister";
+            lblRegister.Size = new Size(99, 15);
+            lblRegister.TabIndex = 4;
+            lblRegister.Text = "Registration Page";
             // 
             // RegistrationPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(lblRegister);
             Controls.Add(lblErrorPassword);
             Controls.Add(btnRegister);
             Controls.Add(txtNewUserP);
@@ -114,5 +125,6 @@
         private TextBox txtNewUserP;
         private Button btnRegister;
         private Label lblErrorPassword;
+        private Label lblRegister;
     }
 }
