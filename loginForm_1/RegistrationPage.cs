@@ -19,6 +19,46 @@ namespace loginForm_1
             InitializeComponent();
             _loginPage = loginPage ?? throw new ArgumentNullException(nameof(loginPage));
             lblErrorPassword.Hide();
+
+            // Apply theme automatically when constructor executes
+            ApplyCustomStyling();
+        }
+
+        private void ApplyCustomStyling()
+        {
+            // 1. Form Window Background
+            this.BackColor = Color.FromArgb(18, 12, 32);
+
+            // 2. Big Title Label (lblRegister)
+            if (lblRegister != null)
+            {
+                lblRegister.Text = "Create Account";
+                lblRegister.Font = new Font("Segoe UI", 28, FontStyle.Bold | FontStyle.Italic);
+                lblRegister.ForeColor = Color.FromArgb(190, 130, 255); // Bright Neon Lavender
+                lblRegister.AutoSize = true;
+            }
+
+            // 3. TextBoxes (txtNewUserN & txtNewUserP)
+            txtNewUserN.BackColor = Color.FromArgb(32, 26, 52);
+            txtNewUserN.ForeColor = Color.White;
+            txtNewUserN.BorderStyle = BorderStyle.FixedSingle;
+            txtNewUserN.Font = new Font("Segoe UI", 11);
+
+            txtNewUserP.BackColor = Color.FromArgb(32, 26, 52);
+            txtNewUserP.ForeColor = Color.White;
+            txtNewUserP.BorderStyle = BorderStyle.FixedSingle;
+            txtNewUserP.Font = new Font("Segoe UI", 11);
+
+            // 4. Register Button
+            btnRegister.BackColor = Color.FromArgb(130, 50, 210);
+            btnRegister.ForeColor = Color.White;
+            btnRegister.FlatStyle = FlatStyle.Flat;
+            btnRegister.FlatAppearance.BorderSize = 0;
+            btnRegister.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+
+            // 5. Error Label Styling
+            lblErrorPassword.ForeColor = Color.FromArgb(255, 100, 100); // Soft Red for readability on dark background
+            lblErrorPassword.Font = new Font("Segoe UI", 9, FontStyle.Italic);
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -71,6 +111,11 @@ namespace loginForm_1
         }
 
         private void RegistrationPage_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblErrorPassword_Click(object sender, EventArgs e)
         {
 
         }

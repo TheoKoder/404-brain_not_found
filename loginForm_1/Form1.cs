@@ -11,8 +11,12 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
+        ApplyCustomStyling();
+
         _homePage = homePage ?? throw new ArgumentNullException(nameof(homePage));
     }
+
+
 
     private void btnLogin_Click(object sender, EventArgs e)
     {
@@ -61,9 +65,69 @@ public partial class Form1 : Form
 
     private void btnRegister_Click(object sender, EventArgs e)
     {
-        RegistrationPage registrationPage= new RegistrationPage(this);
+        RegistrationPage registrationPage = new RegistrationPage(this);
 
         registrationPage.Show();
         this.Hide();
+    }
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+        
+    }
+
+    private void txtPassword_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private void Form1_Load_1(object sender, EventArgs e)
+    {
+
+    }
+
+    private void ApplyCustomStyling()
+    {
+        // 1. Form Window Background
+        this.BackColor = Color.FromArgb(18, 12, 32);
+
+        // 2. Big Title Label (lblTitle)
+        lblTitle.Text = "Login";
+        lblTitle.Font = new Font("Segoe UI", 28, FontStyle.Bold | FontStyle.Italic);
+        lblTitle.ForeColor = Color.FromArgb(190, 130, 255); // Bright Neon Lavender
+        lblTitle.AutoSize = true;
+
+        // 3. Field Labels Customization
+        lblUserN.ForeColor = Color.FromArgb(220, 220, 240);
+        lblUserN.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+
+        lblUserPass.ForeColor = Color.FromArgb(220, 220, 240);
+        lblUserPass.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+
+        // 4. TextBoxes Fill & Borders
+        txtUsername.BackColor = Color.FromArgb(32, 26, 52);
+        txtUsername.ForeColor = Color.White;
+        txtUsername.BorderStyle = BorderStyle.FixedSingle;
+        txtUsername.Font = new Font("Segoe UI", 11);
+
+        txtPassword.BackColor = Color.FromArgb(32, 26, 52);
+        txtPassword.ForeColor = Color.White;
+        txtPassword.BorderStyle = BorderStyle.FixedSingle;
+        txtPassword.Font = new Font("Segoe UI", 11);
+
+        // 5. Primary Login Button Styling
+        btnLogin.BackColor = Color.FromArgb(130, 50, 210);
+        btnLogin.ForeColor = Color.White;
+        btnLogin.FlatStyle = FlatStyle.Flat;
+        btnLogin.FlatAppearance.BorderSize = 0;
+        btnLogin.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+
+        // 6. Register Button Styling (Matches Login Button)
+        btnRegister.BackColor = Color.FromArgb(130, 50, 210);
+        btnRegister.ForeColor = Color.White;
+        btnRegister.FlatStyle = FlatStyle.Flat;
+        btnRegister.FlatAppearance.BorderSize = 0;
+        btnRegister.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+        btnRegister.Size = btnLogin.Size;
     }
 }

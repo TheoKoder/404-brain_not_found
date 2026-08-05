@@ -34,26 +34,38 @@ partial class Form1
         lblUserPass = new Label();
         btnLogin = new Button();
         btnRegister = new Button();
+        lblTitle = new Label();
         SuspendLayout();
+        // 
+        // lblTitle
+        // 
+        lblTitle.AutoSize = true;
+        lblTitle.Font = new Font("Segoe UI", 28F, FontStyle.Bold | FontStyle.Italic);
+        lblTitle.Location = new Point(259, 20);
+        lblTitle.Name = "lblTitle";
+        lblTitle.Size = new Size(123, 51);
+        lblTitle.TabIndex = 3;
+        lblTitle.Text = "Login";
         // 
         // txtUsername
         // 
-        txtUsername.Location = new Point(259, 77);
+        txtUsername.Location = new Point(259, 110);
         txtUsername.Name = "txtUsername";
         txtUsername.Size = new Size(200, 23);
         txtUsername.TabIndex = 0;
         // 
         // txtPassword
         // 
-        txtPassword.Location = new Point(259, 139);
+        txtPassword.Location = new Point(259, 172);
         txtPassword.Name = "txtPassword";
         txtPassword.Size = new Size(200, 23);
         txtPassword.TabIndex = 0;
+        txtPassword.TextChanged += txtPassword_TextChanged;
         // 
         // lblUserN
         // 
         lblUserN.AutoSize = true;
-        lblUserN.Location = new Point(119, 86);
+        lblUserN.Location = new Point(119, 119);
         lblUserN.Name = "lblUserN";
         lblUserN.Size = new Size(62, 15);
         lblUserN.TabIndex = 1;
@@ -62,7 +74,7 @@ partial class Form1
         // lblUserPass
         // 
         lblUserPass.AutoSize = true;
-        lblUserPass.Location = new Point(119, 142);
+        lblUserPass.Location = new Point(119, 175);
         lblUserPass.Name = "lblUserPass";
         lblUserPass.Size = new Size(57, 15);
         lblUserPass.TabIndex = 1;
@@ -70,7 +82,7 @@ partial class Form1
         // 
         // btnLogin
         // 
-        btnLogin.Location = new Point(259, 211);
+        btnLogin.Location = new Point(259, 247);
         btnLogin.Name = "btnLogin";
         btnLogin.Size = new Size(200, 40);
         btnLogin.TabIndex = 2;
@@ -80,7 +92,7 @@ partial class Form1
         // 
         // btnRegister
         // 
-        btnRegister.Location = new Point(259, 270);
+        btnRegister.Location = new Point(259, 306);
         btnRegister.Name = "btnRegister";
         btnRegister.Size = new Size(200, 33);
         btnRegister.TabIndex = 2;
@@ -99,8 +111,10 @@ partial class Form1
         Controls.Add(lblUserN);
         Controls.Add(txtPassword);
         Controls.Add(txtUsername);
+        Controls.Add(lblTitle);
         Name = "Form1";
         Text = "HertzPlayLoginPage";
+        Load += Form1_Load_1;
         ResumeLayout(false);
         PerformLayout();
     }
@@ -113,4 +127,5 @@ partial class Form1
     private Label lblUserPass;
     private Button btnLogin;
     private Button btnRegister;
+    private Label lblTitle;
 }
