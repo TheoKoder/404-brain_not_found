@@ -17,8 +17,8 @@ namespace loginForm_1
 
         private void HomePage_Load(object sender, EventArgs e)
         {
-             
-           
+
+
         }
         //stop the program if ever the user closes the homepage form window
         private void HomePage_FormClosing(object sender, FormClosingEventArgs e)
@@ -29,6 +29,11 @@ namespace loginForm_1
         public void setCurrentUserloggedin(string username)
         {
             lblWelcomeUser.Text = $"Live: {username}🚀";
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
