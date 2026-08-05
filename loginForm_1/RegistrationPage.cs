@@ -17,13 +17,13 @@ namespace loginForm_1
         public RegistrationPage(Form1 loginPage)
         {
             InitializeComponent();
-            _loginPage = loginPage?? throw new ArgumentNullException(nameof(loginPage));
+            _loginPage = loginPage ?? throw new ArgumentNullException(nameof(loginPage));
             lblErrorPassword.Hide();
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            if (this.isLegitRegistration(txtNewUserN.Text,txtNewUserP.Text))
+            if (this.isLegitRegistration(txtNewUserN.Text, txtNewUserP.Text))
             {
                 _loginPage.Show();
                 this.Hide();
@@ -33,10 +33,10 @@ namespace loginForm_1
                 lblErrorPassword.Show();
                 lblErrorPassword.Text = "password must be between 3-15 characters long with special keys *,&^%@!# inclusive!";
             }
-           
+
         }
 
-        private bool isLegitRegistration( string regUser, string regPass)
+        private bool isLegitRegistration(string regUser, string regPass)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace loginForm_1
                     MessageBox.Show("Invalid Username or Password format", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
+
                 return true;
 
             }
@@ -65,11 +65,14 @@ namespace loginForm_1
 
                 //Print exact issue to Visual studio output window for better debugging
                 Debug.WriteLine($"Validation Error: {ex.Message}");
-                
+
                 return false;
             }
         }
 
+        private void RegistrationPage_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }
