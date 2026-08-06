@@ -36,3 +36,28 @@ C:\Users\Admin\source\repos\TheoKoder\404-brain_not_found\loginForm_1\obj\Debug\
 C:\Users\Admin\source\repos\TheoKoder\404-brain_not_found\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.pdb
 C:\Users\Admin\source\repos\TheoKoder\404-brain_not_found\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.genruntimeconfig.cache
 C:\Users\Admin\source\repos\TheoKoder\404-brain_not_found\loginForm_1\obj\Debug\net10.0-windows\ref\loginForm_1.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\refint\loginForm_1.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.pdb
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\bin\Debug\net10.0-windows\loginForm_1.exe
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\bin\Debug\net10.0-windows\loginForm_1.deps.json
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\bin\Debug\net10.0-windows\loginForm_1.runtimeconfig.json
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\bin\Debug\net10.0-windows\loginForm_1.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\bin\Debug\net10.0-windows\loginForm_1.pdb
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.Form1.resources
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.HomePage.resources
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.Properties.Resources.resources
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.RegistrationPage.resources
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.csproj.GenerateResource.cache
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.AssemblyInfoInputs.cache
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.AssemblyInfo.cs
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.csproj.CoreCompileInputs.cache
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.genruntimeconfig.cache
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\ref\loginForm_1.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.playlist.resources
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\bin\Debug\net10.0-windows\Interop.WMPLib.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\bin\Debug\net10.0-windows\AxInterop.WMPLib.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\Interop.WMPLib.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\AxInterop.WMPLib.dll
+C:\Users\LENOVO\Downloads\404-brain_not_found-main (5)\404-brain_not_found-main\loginForm_1\obj\Debug\net10.0-windows\loginForm_1.csproj.ResolveComReference.cache
