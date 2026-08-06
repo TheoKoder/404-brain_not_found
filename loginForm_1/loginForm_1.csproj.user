@@ -8,6 +8,9 @@
     <Compile Update="HomePage.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="playlist.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="RegistrationPage.cs">
       <SubType>Form</SubType>
     </Compile>
