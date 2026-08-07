@@ -14,6 +14,7 @@ public partial class Form1 : Form
         ApplyCustomStyling();
 
         _homePage = homePage ?? throw new ArgumentNullException(nameof(homePage));
+        
     }
 
 
@@ -22,7 +23,7 @@ public partial class Form1 : Form
     {
         if (this.IsLoginValid(txtUsername.Text, txtPassword.Text, out string finalUser))
         {
-            MessageBox.Show($"Welcome to HertzPlay!{finalUser}😁", "Welcome🎶🎙️", MessageBoxButtons.OK);
+            MessageBox.Show($"Welcome to HertzPlay!{finalUser}😁", "Welcome🎶🎙️", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //Set the current user to Homepage screen
             _homePage.setCurrentUserloggedin(finalUser);
             //Homepage window will show
@@ -33,12 +34,14 @@ public partial class Form1 : Form
     }
     private bool IsLoginValid(string username, string password, out string fullName)
     {
+        fullName = string.Empty;
         try
         {
             //Check for empty textfield login attempt
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Please input Username & Password", "Error!", MessageBoxButtons.OK);
+                return false;
             }
             //Regex patterns
             string userPattern = @"^[a-zA-Z0-9]{3,15}$";
@@ -48,10 +51,12 @@ public partial class Form1 : Form
             if (!Regex.IsMatch(username.Trim(), userPattern) ||
                 !Regex.IsMatch(password.Trim(), passPattern))
             {
-                MessageBox.Show("Invalid Username or Password format", "Error",
+                MessageBox.Show("Invalid Username or Password format. Please ensure values are correct or Register if you do not already have an account,", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return false;
             }
-            fullName = username;
+            fullName = username.Trim();
             return true;
         }
         catch (Exception err)
@@ -61,6 +66,7 @@ public partial class Form1 : Form
             fullName = err.Message;
             return false;
         }
+
     }
 
     private void btnRegister_Click(object sender, EventArgs e)
@@ -109,6 +115,12 @@ public partial class Form1 : Form
         txtUsername.ForeColor = Color.White;
         txtUsername.BorderStyle = BorderStyle.FixedSingle;
         txtUsername.Font = new Font("Segoe UI", 11);
+
+        //Registration button label
+        lblRegister.BackColor = Color.FromArgb(32, 26, 52);
+        lblRegister.ForeColor = Color.White;
+        lblRegister.BorderStyle= BorderStyle.FixedSingle;
+        lblRegister.Font = new Font("Segoe UI", 11);
 
         txtPassword.BackColor = Color.FromArgb(32, 26, 52);
         txtPassword.ForeColor = Color.White;

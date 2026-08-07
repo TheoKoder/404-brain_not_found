@@ -35,17 +35,8 @@ partial class Form1
         btnLogin = new Button();
         btnRegister = new Button();
         lblTitle = new Label();
+        lblRegister = new Label();
         SuspendLayout();
-        // 
-        // lblTitle
-        // 
-        lblTitle.AutoSize = true;
-        lblTitle.Font = new Font("Segoe UI", 28F, FontStyle.Bold | FontStyle.Italic);
-        lblTitle.Location = new Point(259, 20);
-        lblTitle.Name = "lblTitle";
-        lblTitle.Size = new Size(123, 51);
-        lblTitle.TabIndex = 3;
-        lblTitle.Text = "Login";
         // 
         // txtUsername
         // 
@@ -82,7 +73,7 @@ partial class Form1
         // 
         // btnLogin
         // 
-        btnLogin.Location = new Point(259, 247);
+        btnLogin.Location = new Point(259, 224);
         btnLogin.Name = "btnLogin";
         btnLogin.Size = new Size(200, 40);
         btnLogin.TabIndex = 2;
@@ -92,7 +83,7 @@ partial class Form1
         // 
         // btnRegister
         // 
-        btnRegister.Location = new Point(259, 306);
+        btnRegister.Location = new Point(259, 326);
         btnRegister.Name = "btnRegister";
         btnRegister.Size = new Size(200, 33);
         btnRegister.TabIndex = 2;
@@ -100,11 +91,31 @@ partial class Form1
         btnRegister.UseVisualStyleBackColor = true;
         btnRegister.Click += btnRegister_Click;
         // 
+        // lblTitle
+        // 
+        lblTitle.AutoSize = true;
+        lblTitle.Font = new Font("Segoe UI", 28F, FontStyle.Bold | FontStyle.Italic);
+        lblTitle.Location = new Point(259, 20);
+        lblTitle.Name = "lblTitle";
+        lblTitle.Size = new Size(121, 51);
+        lblTitle.TabIndex = 3;
+        lblTitle.Text = "Login";
+        // 
+        // lblRegister
+        // 
+        lblRegister.AutoSize = true;
+        lblRegister.Location = new Point(222, 287);
+        lblRegister.Name = "lblRegister";
+        lblRegister.Size = new Size(225, 15);
+        lblRegister.TabIndex = 4;
+        lblRegister.Text = "Don't Have An Account? Click to Register";
+        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(lblRegister);
         Controls.Add(btnRegister);
         Controls.Add(btnLogin);
         Controls.Add(lblUserPass);
@@ -128,4 +139,5 @@ partial class Form1
     private Button btnLogin;
     private Button btnRegister;
     private Label lblTitle;
+    private Label lblRegister;
 }
