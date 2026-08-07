@@ -8,23 +8,23 @@
     "net10.0-windows": []
   },
   "packageFolders": {
-    "C:\\Users\\LENOVO\\.nuget\\packages\\": {},
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\LENOVO\\Downloads\\404-brain_not_found-main (5)\\404-brain_not_found-main\\loginForm_1\\loginForm_1.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\404-brain_not_found\\loginForm_1\\loginForm_1.csproj",
       "projectName": "loginForm_1",
-      "projectPath": "C:\\Users\\LENOVO\\Downloads\\404-brain_not_found-main (5)\\404-brain_not_found-main\\loginForm_1\\loginForm_1.csproj",
-      "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\LENOVO\\Downloads\\404-brain_not_found-main (5)\\404-brain_not_found-main\\loginForm_1\\obj\\",
+      "projectPath": "C:\\Users\\Admin\\source\\repos\\404-brain_not_found\\loginForm_1\\loginForm_1.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Admin\\source\\repos\\404-brain_not_found\\loginForm_1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -77,7 +77,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

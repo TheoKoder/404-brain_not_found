@@ -33,17 +33,17 @@
             btnCreatePlaylist = new Button();
             pictureBox1 = new PictureBox();
             panel2 = new Panel();
+            btnFavourites = new Button();
             pictureBox2 = new PictureBox();
-            lblFavourites = new Label();
             panel3 = new Panel();
+            btnVibes = new Button();
             pictureBox3 = new PictureBox();
-            label3 = new Label();
             panel4 = new Panel();
+            btnSadSongs = new Button();
             pictureBox4 = new PictureBox();
-            label4 = new Label();
             panel5 = new Panel();
+            btnStudy = new Button();
             pictureBox5 = new PictureBox();
-            label5 = new Label();
             panel6 = new Panel();
             label6 = new Label();
             pictureBox6 = new PictureBox();
@@ -79,6 +79,7 @@
             btnCreatePlaylist.TabIndex = 1;
             btnCreatePlaylist.Text = "Create Playlist";
             btnCreatePlaylist.UseVisualStyleBackColor = true;
+            btnCreatePlaylist.Click += btnCreatePlaylist_Click;
             // 
             // pictureBox1
             // 
@@ -92,12 +93,22 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(btnFavourites);
             panel2.Controls.Add(pictureBox2);
-            panel2.Controls.Add(lblFavourites);
             panel2.Location = new Point(534, 57);
             panel2.Name = "panel2";
             panel2.Size = new Size(254, 207);
             panel2.TabIndex = 0;
+            // 
+            // btnFavourites
+            // 
+            btnFavourites.Location = new Point(96, 164);
+            btnFavourites.Name = "btnFavourites";
+            btnFavourites.Size = new Size(75, 23);
+            btnFavourites.TabIndex = 2;
+            btnFavourites.Text = "Favourites";
+            btnFavourites.UseVisualStyleBackColor = true;
+            btnFavourites.Click += btnFavourites_Click;
             // 
             // pictureBox2
             // 
@@ -109,24 +120,24 @@
             pictureBox2.TabIndex = 1;
             pictureBox2.TabStop = false;
             // 
-            // lblFavourites
-            // 
-            lblFavourites.AutoSize = true;
-            lblFavourites.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFavourites.Location = new Point(109, 163);
-            lblFavourites.Name = "lblFavourites";
-            lblFavourites.Size = new Size(82, 20);
-            lblFavourites.TabIndex = 7;
-            lblFavourites.Text = "Favourites";
-            // 
             // panel3
             // 
+            panel3.Controls.Add(btnVibes);
             panel3.Controls.Add(pictureBox3);
-            panel3.Controls.Add(label3);
             panel3.Location = new Point(12, 288);
             panel3.Name = "panel3";
             panel3.Size = new Size(212, 150);
             panel3.TabIndex = 0;
+            // 
+            // btnVibes
+            // 
+            btnVibes.Location = new Point(83, 117);
+            btnVibes.Name = "btnVibes";
+            btnVibes.Size = new Size(75, 23);
+            btnVibes.TabIndex = 3;
+            btnVibes.Text = "Vibes";
+            btnVibes.UseVisualStyleBackColor = true;
+            btnVibes.Click += btnVibes_Click;
             // 
             // pictureBox3
             // 
@@ -138,23 +149,24 @@
             pictureBox3.TabIndex = 2;
             pictureBox3.TabStop = false;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(70, 115);
-            label3.Name = "label3";
-            label3.Size = new Size(38, 15);
-            label3.TabIndex = 8;
-            label3.Text = "label3";
-            // 
             // panel4
             // 
+            panel4.Controls.Add(btnSadSongs);
             panel4.Controls.Add(pictureBox4);
-            panel4.Controls.Add(label4);
             panel4.Location = new Point(289, 288);
             panel4.Name = "panel4";
             panel4.Size = new Size(226, 150);
             panel4.TabIndex = 0;
+            // 
+            // btnSadSongs
+            // 
+            btnSadSongs.Location = new Point(80, 118);
+            btnSadSongs.Name = "btnSadSongs";
+            btnSadSongs.Size = new Size(75, 23);
+            btnSadSongs.TabIndex = 4;
+            btnSadSongs.Text = "Sad Songs";
+            btnSadSongs.UseVisualStyleBackColor = true;
+            btnSadSongs.Click += btnSadSongs_Click;
             // 
             // pictureBox4
             // 
@@ -166,23 +178,24 @@
             pictureBox4.TabIndex = 3;
             pictureBox4.TabStop = false;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(78, 115);
-            label4.Name = "label4";
-            label4.Size = new Size(38, 15);
-            label4.TabIndex = 9;
-            label4.Text = "label4";
-            // 
             // panel5
             // 
+            panel5.Controls.Add(btnStudy);
             panel5.Controls.Add(pictureBox5);
-            panel5.Controls.Add(label5);
             panel5.Location = new Point(571, 288);
             panel5.Name = "panel5";
             panel5.Size = new Size(217, 150);
             panel5.TabIndex = 0;
+            // 
+            // btnStudy
+            // 
+            btnStudy.Location = new Point(73, 117);
+            btnStudy.Name = "btnStudy";
+            btnStudy.Size = new Size(75, 23);
+            btnStudy.TabIndex = 5;
+            btnStudy.Text = "Study";
+            btnStudy.UseVisualStyleBackColor = true;
+            btnStudy.Click += btnStudy_Click;
             // 
             // pictureBox5
             // 
@@ -193,15 +206,6 @@
             pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox5.TabIndex = 4;
             pictureBox5.TabStop = false;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(87, 115);
-            label5.Name = "label5";
-            label5.Size = new Size(38, 15);
-            label5.TabIndex = 10;
-            label5.Text = "label5";
             // 
             // panel6
             // 
@@ -244,7 +248,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1236, 542);
             Controls.Add(lblWelcomeUser);
             Controls.Add(panel2);
             Controls.Add(panel3);
@@ -258,16 +262,12 @@
             panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panel3.ResumeLayout(false);
-            panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             panel4.ResumeLayout(false);
-            panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
             panel5.ResumeLayout(false);
-            panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             panel6.ResumeLayout(false);
             panel6.PerformLayout();
@@ -291,11 +291,11 @@
         private PictureBox pictureBox5;
         private PictureBox pictureBox6;
         private Button btnCreatePlaylist;
-        private Label lblFavourites;
-        private Label label3;
-        private Label label4;
-        private Label label5;
         private Label label6;
         private Label lblWelcomeUser;
+        private Button btnFavourites;
+        private Button btnVibes;
+        private Button btnSadSongs;
+        private Button btnStudy;
     }
 }

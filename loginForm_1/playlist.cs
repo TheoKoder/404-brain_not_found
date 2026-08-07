@@ -8,19 +8,27 @@ using System.Windows.Forms;
 
 namespace loginForm_1
 {
-    public partial class playlist : Form
+    public partial class Playlist : Form
     {
-        // Holds the current playlist's name. Default provided so constructor can safely use it.
-        private string PlaylistName = "Untitled Playlist";
+        private string currentPlaylistName;
 
-        // ... you can replace this with real data-loading logic later.
-        private void LoadPlaylistMetadata()
+        // Constructor accepting the playlist title string
+        public Playlist(string playlistName)
         {
-            if (lblCreationDate != null)
-            {
-                // Example: show today's date as creation date when real metadata is not available
-                lblCreationDate.Text = DateTime.Now.ToString("MMMM dd, yyyy");
-            }
+            InitializeComponent();
+            this.currentPlaylistName = playlistName;
+            this.Text = $"Playlist - {playlistName}"; // Set window header text
+        }
+
+        // Default constructor
+        public Playlist()
+        {
+            InitializeComponent();
+        }
+
+        private void Playlist_Load(object sender, EventArgs e)
+        {
+            // You can use currentPlaylistName here to load track data from a text file
         }
 
         private void LoadSongsList()
@@ -40,20 +48,6 @@ namespace loginForm_1
         {
             if (lblTrackCount == null || lstSongs == null) return;
             lblTrackCount.Text = $"{lstSongs.Items.Count} track" + (lstSongs.Items.Count == 1 ? "" : "s");
-        }
-
-        public playlist()
-        {
-            InitializeComponent();
-
-            ApplyTheme(); // Applies HertzPlay theme automatically when opened
-
-            // Use the PlaylistName field (can be set before showing the form) and
-            // initialize display data. These methods are implemented above.
-            lblPlaylistTitle.Text = PlaylistName;
-            LoadPlaylistMetadata();
-            LoadSongsList();
-            UpdateTrackCount();
         }
 
         private void ApplyTheme()

@@ -1,6 +1,6 @@
 ﻿namespace loginForm_1
 {
-    partial class playlist
+    partial class Playlist
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(playlist));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Playlist));
             pnlHeader = new Panel();
             lblCreationDate = new Label();
             lblPlaylistTitle = new Label();
