@@ -8,19 +8,19 @@
     "net10.0-windows": []
   },
   "packageFolders": {
-    "C:\\Users\\u22685155\\.nuget\\packages\\": {}
+    "C:\\Users\\DELL\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\u22685155\\source\\repos\\TheoKoder\\404-brain_not_found\\loginForm_1\\loginForm_1.csproj",
+      "projectUniqueName": "C:\\Users\\DELL\\source\\repos\\404-brain_not_\\loginForm_1\\loginForm_1.csproj",
       "projectName": "loginForm_1",
-      "projectPath": "C:\\Users\\u22685155\\source\\repos\\TheoKoder\\404-brain_not_found\\loginForm_1\\loginForm_1.csproj",
-      "packagesPath": "C:\\Users\\u22685155\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\u22685155\\source\\repos\\TheoKoder\\404-brain_not_found\\loginForm_1\\obj\\",
+      "projectPath": "C:\\Users\\DELL\\source\\repos\\404-brain_not_\\loginForm_1\\loginForm_1.csproj",
+      "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\DELL\\source\\repos\\404-brain_not_\\loginForm_1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\u22685155\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

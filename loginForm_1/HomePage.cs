@@ -177,6 +177,7 @@ namespace loginForm_1
         {
             Form2 createPlaylistForm = new Form2();
             createPlaylistForm.ShowDialog();
+            
         }
     }
 }
