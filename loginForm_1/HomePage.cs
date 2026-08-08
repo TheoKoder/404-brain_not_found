@@ -32,7 +32,7 @@ namespace loginForm_1
             cardPanel.Size = new Size(226, 150);
             cardPanel.BackColor = Color.FromArgb(40, 25, 60); // Matches dark theme
             cardPanel.Margin = new Padding(10);
-            cardPanel.Location = new Point(853, 288); // Adjust as needed for layout
+            //cardPanel.Location = new Point(853, 288); // Adjust as needed for layout
 
             // 2. Create PictureBox inside panel
             PictureBox picBox = new PictureBox();
@@ -73,7 +73,8 @@ namespace loginForm_1
 
 
             // If you DON'T have a FlowLayoutPanel, add directly to Form:
-            this.Controls.Add(cardPanel);
+            //this.Controls.Add(cardPanel);
+            flowLayoutPanel1.Controls.Add(cardPanel);
         }
 
 
@@ -140,7 +141,7 @@ namespace loginForm_1
         public void setCurrentUserloggedin(string username)
         {
             lblWelcomeUser.Text = $"Live: {username}🚀";
-            label6.Text = $" {username} ";
+            //label6.Text = $" {username} ";
         }
 
         private void panel5_Paint(object sender, PaintEventArgs e)

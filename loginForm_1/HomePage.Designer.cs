@@ -45,9 +45,9 @@
             btnStudy = new Button();
             pictureBox5 = new PictureBox();
             panel6 = new Panel();
-            label6 = new Label();
             pictureBox6 = new PictureBox();
             lblWelcomeUser = new Label();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -60,22 +60,23 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.Controls.Add(btnCreatePlaylist);
             panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(12, 57);
+            panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(259, 207);
+            panel1.Size = new Size(332, 198);
             panel1.TabIndex = 0;
             // 
             // btnCreatePlaylist
             // 
-            btnCreatePlaylist.Location = new Point(70, 157);
+            btnCreatePlaylist.Location = new Point(59, 157);
             btnCreatePlaylist.Name = "btnCreatePlaylist";
-            btnCreatePlaylist.Size = new Size(104, 23);
+            btnCreatePlaylist.Size = new Size(206, 23);
             btnCreatePlaylist.TabIndex = 1;
             btnCreatePlaylist.Text = "Create Playlist";
             btnCreatePlaylist.UseVisualStyleBackColor = true;
@@ -84,7 +85,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(23, 12);
+            pictureBox1.Location = new Point(59, 11);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(206, 139);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -95,16 +96,16 @@
             // 
             panel2.Controls.Add(btnFavourites);
             panel2.Controls.Add(pictureBox2);
-            panel2.Location = new Point(534, 57);
+            panel2.Location = new Point(341, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(254, 207);
+            panel2.Size = new Size(346, 198);
             panel2.TabIndex = 0;
             // 
             // btnFavourites
             // 
-            btnFavourites.Location = new Point(96, 164);
+            btnFavourites.Location = new Point(96, 152);
             btnFavourites.Name = "btnFavourites";
-            btnFavourites.Size = new Size(75, 23);
+            btnFavourites.Size = new Size(197, 23);
             btnFavourites.TabIndex = 2;
             btnFavourites.Text = "Favourites";
             btnFavourites.UseVisualStyleBackColor = true;
@@ -113,7 +114,7 @@
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(28, 12);
+            pictureBox2.Location = new Point(96, 7);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(197, 139);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -124,16 +125,16 @@
             // 
             panel3.Controls.Add(btnVibes);
             panel3.Controls.Add(pictureBox3);
-            panel3.Location = new Point(12, 288);
+            panel3.Location = new Point(3, 207);
             panel3.Name = "panel3";
-            panel3.Size = new Size(212, 150);
+            panel3.Size = new Size(229, 150);
             panel3.TabIndex = 0;
             // 
             // btnVibes
             // 
-            btnVibes.Location = new Point(83, 117);
+            btnVibes.Location = new Point(23, 117);
             btnVibes.Name = "btnVibes";
-            btnVibes.Size = new Size(75, 23);
+            btnVibes.Size = new Size(151, 23);
             btnVibes.TabIndex = 3;
             btnVibes.Text = "Vibes";
             btnVibes.UseVisualStyleBackColor = true;
@@ -153,16 +154,16 @@
             // 
             panel4.Controls.Add(btnSadSongs);
             panel4.Controls.Add(pictureBox4);
-            panel4.Location = new Point(289, 288);
+            panel4.Location = new Point(238, 207);
             panel4.Name = "panel4";
             panel4.Size = new Size(226, 150);
             panel4.TabIndex = 0;
             // 
             // btnSadSongs
             // 
-            btnSadSongs.Location = new Point(80, 118);
+            btnSadSongs.Location = new Point(29, 118);
             btnSadSongs.Name = "btnSadSongs";
-            btnSadSongs.Size = new Size(75, 23);
+            btnSadSongs.Size = new Size(159, 23);
             btnSadSongs.TabIndex = 4;
             btnSadSongs.Text = "Sad Songs";
             btnSadSongs.UseVisualStyleBackColor = true;
@@ -182,16 +183,16 @@
             // 
             panel5.Controls.Add(btnStudy);
             panel5.Controls.Add(pictureBox5);
-            panel5.Location = new Point(571, 288);
+            panel5.Location = new Point(470, 207);
             panel5.Name = "panel5";
             panel5.Size = new Size(217, 150);
             panel5.TabIndex = 0;
             // 
             // btnStudy
             // 
-            btnStudy.Location = new Point(73, 117);
+            btnStudy.Location = new Point(41, 117);
             btnStudy.Name = "btnStudy";
-            btnStudy.Size = new Size(75, 23);
+            btnStudy.Size = new Size(134, 23);
             btnStudy.TabIndex = 5;
             btnStudy.Text = "Study";
             btnStudy.UseVisualStyleBackColor = true;
@@ -209,21 +210,11 @@
             // 
             // panel6
             // 
-            panel6.Controls.Add(label6);
             panel6.Controls.Add(pictureBox6);
-            panel6.Location = new Point(553, 12);
+            panel6.Location = new Point(306, 12);
             panel6.Name = "panel6";
-            panel6.Size = new Size(235, 39);
+            panel6.Size = new Size(62, 39);
             panel6.TabIndex = 0;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(79, 16);
-            label6.Name = "label6";
-            label6.Size = new Size(38, 15);
-            label6.TabIndex = 11;
-            label6.Text = "label6";
             // 
             // pictureBox6
             // 
@@ -238,24 +229,32 @@
             // lblWelcomeUser
             // 
             lblWelcomeUser.AutoSize = true;
-            lblWelcomeUser.Location = new Point(341, 69);
+            lblWelcomeUser.Location = new Point(628, 13);
             lblWelcomeUser.Name = "lblWelcomeUser";
             lblWelcomeUser.Size = new Size(57, 30);
             lblWelcomeUser.TabIndex = 12;
             lblWelcomeUser.Text = "Welcome\r\nUser";
             // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Controls.Add(panel1);
+            flowLayoutPanel1.Controls.Add(panel2);
+            flowLayoutPanel1.Controls.Add(panel3);
+            flowLayoutPanel1.Controls.Add(panel4);
+            flowLayoutPanel1.Controls.Add(panel5);
+            flowLayoutPanel1.Location = new Point(306, 57);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(691, 573);
+            flowLayoutPanel1.TabIndex = 12;
+            // 
             // HomePage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1236, 542);
+            ClientSize = new Size(1320, 675);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(lblWelcomeUser);
-            Controls.Add(panel2);
-            Controls.Add(panel3);
-            Controls.Add(panel4);
-            Controls.Add(panel5);
             Controls.Add(panel6);
-            Controls.Add(panel1);
             Name = "HomePage";
             Text = "HomePage";
             Load += HomePage_Load;
@@ -270,8 +269,8 @@
             panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             panel6.ResumeLayout(false);
-            panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
+            flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -291,11 +290,11 @@
         private PictureBox pictureBox5;
         private PictureBox pictureBox6;
         private Button btnCreatePlaylist;
-        private Label label6;
         private Label lblWelcomeUser;
         private Button btnFavourites;
         private Button btnVibes;
         private Button btnSadSongs;
         private Button btnStudy;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
