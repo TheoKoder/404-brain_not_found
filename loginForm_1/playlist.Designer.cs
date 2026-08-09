@@ -59,6 +59,7 @@
             pnlHeader.Name = "pnlHeader";
             pnlHeader.Size = new Size(800, 80);
             pnlHeader.TabIndex = 0;
+            pnlHeader.Paint += pnlHeader_Paint;
             // 
             // lblCreationDate
             // 
@@ -181,7 +182,7 @@
             lstSongs.Size = new Size(488, 229);
             lstSongs.TabIndex = 4;
             // 
-            // playlist
+            // Playlist
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -191,7 +192,7 @@
             Controls.Add(pnlLeft);
             Controls.Add(pnlPlayback);
             Controls.Add(pnlHeader);
-            Name = "playlist";
+            Name = "Playlist";
             Text = "Playlist";
             Load += playlist_Load_1;
             pnlHeader.ResumeLayout(false);

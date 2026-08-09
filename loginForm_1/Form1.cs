@@ -14,7 +14,7 @@ public partial class Form1 : Form
         ApplyCustomStyling();
 
         _homePage = homePage ?? throw new ArgumentNullException(nameof(homePage));
-        
+
     }
 
 
@@ -79,7 +79,7 @@ public partial class Form1 : Form
 
     private void Form1_Load(object sender, EventArgs e)
     {
-        
+
     }
 
     private void txtPassword_TextChanged(object sender, EventArgs e)
@@ -119,7 +119,7 @@ public partial class Form1 : Form
         //Registration button label
         lblRegister.BackColor = Color.FromArgb(32, 26, 52);
         lblRegister.ForeColor = Color.White;
-        lblRegister.BorderStyle= BorderStyle.FixedSingle;
+        lblRegister.BorderStyle = BorderStyle.FixedSingle;
         lblRegister.Font = new Font("Segoe UI", 11);
 
         txtPassword.BackColor = Color.FromArgb(32, 26, 52);
@@ -141,5 +141,10 @@ public partial class Form1 : Form
         btnRegister.FlatAppearance.BorderSize = 0;
         btnRegister.Font = new Font("Segoe UI", 12, FontStyle.Bold);
         btnRegister.Size = btnLogin.Size;
+    }
+
+    private void txtUsername_TextChanged(object sender, EventArgs e)
+    {
+
     }
 }

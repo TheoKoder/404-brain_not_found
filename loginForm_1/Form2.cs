@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
+
 using System.Windows.Forms;
 
 namespace loginForm_1
@@ -44,36 +46,48 @@ namespace loginForm_1
 
         private void btnDone_Click(object sender, EventArgs e)
         {
-            // 1. Get the playlist title from your TextBox (e.g., txtPlaylistName)
             string playlistTitle = txtCreatePlaylist.Text.Trim();
 
-            // Validate that title is not empty
             if (string.IsNullOrEmpty(playlistTitle))
             {
                 MessageBox.Show("Please enter a playlist title!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Get the uploaded image (can be null if none uploaded)
-            Image coverImage = picCreate.Image;
+           
+            string metadataFile = $"{playlistTitle}_info.txt";
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(metadataFile, false))
+                {
+                    writer.WriteLine(DateTime.Now.ToShortDateString()); // Line 1: Creation Date
+                    writer.WriteLine(selectedImagePath);                 // Line 2: Image Path (or empty if none)
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving playlist date: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+          
 
-            // 3. Find the open HomePage instance or pass reference
+            Image coverImage = picCreate.Image;
             HomePage mainHome = (HomePage)Application.OpenForms["HomePage"];
 
             if (mainHome != null)
             {
-                // Call method to build and display the new panel on HomePage
                 mainHome.AddNewPlaylistCard(playlistTitle, coverImage);
-
                 MessageBox.Show($"Playlist '{playlistTitle}' created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Close Create Playlist Form
                 this.Close();
             }
             else
             {
                 MessageBox.Show("Could not find the HomePage window.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 
 namespace loginForm_1
@@ -12,23 +13,50 @@ namespace loginForm_1
     {
         private string currentPlaylistName;
 
+
+
+        // DECLARE IT HERE:
+        private string playlistMetadataFile;
         // Constructor accepting the playlist title string
         public Playlist(string playlistName)
         {
             InitializeComponent();
+            
+            // ASSIGN IT HERE:
+            
+            this.Load += new System.EventHandler(this.playlist_Load);
+
             this.currentPlaylistName = playlistName;
-            this.Text = $"Playlist - {playlistName}"; // Set window header text
+            this.Text = $"Playlist - {playlistName}";
+            this.playlistMetadataFile = $"{currentPlaylistName}_info.txt";
         }
 
+
         // Default constructor
-        public Playlist()
+        public Playlist() : this("My Playlist")
         {
-            InitializeComponent();
         }
+        // Default constructor
+
+
 
         private void Playlist_Load(object sender, EventArgs e)
         {
-            // You can use currentPlaylistName here to load track data from a text file
+            // 1. Display the playlist name in the title label
+            if (lblPlaylistTitle != null)
+            {
+                lblPlaylistTitle.Text = currentPlaylistName;
+            }
+
+            // 2. Load and apply custom colors and fonts
+            ApplyTheme();
+
+            // 3. Read or create the metadata file for date and cover image
+            LoadPlaylistMetadata();
+
+            // 4. Initialize song list and track count display
+            LoadSongsList();
+            UpdateTrackCount();
         }
 
         private void LoadSongsList()
@@ -128,6 +156,22 @@ namespace loginForm_1
 
         private void playlist_Load(object sender, EventArgs e)
         {
+            // TEST LINE: This popup tells us if Windows Forms is actually running this code
+            //MessageBox.Show("Playlist Load Event Fired!", "Debug Test");
+
+            // Set the heading label text
+            if (lblPlaylistTitle != null)
+            {
+                lblPlaylistTitle.Text = currentPlaylistName;
+            }
+
+            // CALL THIS: Reads {playlistTitle}_info.txt using StreamReader and sets lblCreationDate
+            LoadPlaylistMetadata();
+
+            // Load visual styles & initial track count
+            ApplyTheme();
+            UpdateTrackCount();
+
 
         }
 
@@ -139,6 +183,99 @@ namespace loginForm_1
         private void playlist_Load_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void pnlHeader_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void LoadPlaylistMetadata()
+        {
+            try
+            {
+                // Check if the metadata text file for this specific playlist already exists on disk
+                if (File.Exists(playlistMetadataFile))
+                {
+                    // StreamReader reads the existing file line by line
+                    using (StreamReader reader = new StreamReader(playlistMetadataFile))
+                    {
+                        string creationDate = reader.ReadLine(); // Line 1: Saved timestamp
+                        string imagePath = reader.ReadLine();    // Line 2: Saved cover art path
+
+                        // If a valid creation date was found in the text file, use it
+                        if (!string.IsNullOrEmpty(creationDate))
+                        {
+                            lblCreationDate.Text = "Created: " + creationDate;
+                        }
+                        else
+                        {
+                            // Fallback to today's date if the line is blank
+                            lblCreationDate.Text = "Created: " + DateTime.Now.ToShortDateString();
+                        }
+
+                        // Restore the cover art image if the path is valid and file exists
+                        if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath))
+                        {
+                            picCoverArt.ImageLocation = imagePath;
+                        }
+                    }
+                }
+                else
+                {
+                    // If the text file doesn't exist yet, this is a brand-new playlist.
+                    // DateTime.Now.ToShortDateString() gets today's current date as a string timestamp (e.g., "2026/08/09").
+                    string todayTimestamp = DateTime.Now.ToShortDateString();
+                    lblCreationDate.Text = "Created: " + todayTimestamp;
+
+                    // StreamWriter creates the text file and writes the new timestamp to Line 1
+                    using (StreamWriter writer = new StreamWriter(playlistMetadataFile, false))
+                    {
+                        writer.WriteLine(todayTimestamp); // Save the timestamp
+                        writer.WriteLine("");             // Leave Line 2 empty for now (no cover art yet)
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading playlist details: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnUploadCover_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "Select Cover Art";
+                openFileDialog.Filter = "Image Files (*.jpg; *.jpeg; *.png; *.bmp)|*.jpg; *.jpeg; *.png; *.bmp";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedImagePath = openFileDialog.FileName;
+
+                    // Set picture box
+                    if (picCoverArt != null)
+                    {
+                        picCoverArt.ImageLocation = selectedImagePath;
+                        picCoverArt.SizeMode = PictureBoxSizeMode.Zoom;
+                    }
+
+                    // Save image path to text file
+                    try
+                    {
+                        string creationDate = lblCreationDate != null ? lblCreationDate.Text.Replace("Created: ", "").Trim() : DateTime.Now.ToShortDateString();
+                        using (StreamWriter writer = new StreamWriter(playlistMetadataFile, false))
+                        {
+                            writer.WriteLine(creationDate);     // Line 1: Date
+                            writer.WriteLine(selectedImagePath); // Line 2: Image Path
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error saving image path: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }
