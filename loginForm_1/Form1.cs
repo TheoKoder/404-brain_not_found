@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.IO;
 
 namespace loginForm_1;
 //TEST PASSWORD: bopPass2026! & Username:u2080426
@@ -21,51 +22,85 @@ public partial class Form1 : Form
 
     private void btnLogin_Click(object sender, EventArgs e)
     {
-        if (this.IsLoginValid(txtUsername.Text, txtPassword.Text, out string finalUser))
+        try
         {
-            MessageBox.Show($"Welcome to HertzPlay!{finalUser}😁", "Welcome🎶🎙️", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //Set the current user to Homepage screen
-            _homePage.setCurrentUserloggedin(finalUser);
-            //Homepage window will show
-            _homePage.Show();
-            //Hide current window
-            this.Hide();
+
+            if (this.IsLoginValid(txtUsername.Text, txtPassword.Text, out string finalUser))
+            {
+                MessageBox.Show($"Welcome to HertzPlay!{finalUser}😁", "Welcome🎶🎙️",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //Set the current user to Homepage screen
+                _homePage.setCurrentUserloggedin(finalUser);
+
+                //Homepage window will show
+                _homePage.Show();
+
+                //Hide current window
+                this.Hide();
+            }
+        }
+        catch (Exception err)
+        {
+
+            MessageBox.Show($"An unexpected error occurred during login: {err.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
     private bool IsLoginValid(string username, string password, out string fullName)
     {
         fullName = string.Empty;
+
+        //dynamically fetch the database textfile without explicitly inoutting the exact filepath
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "database.txt"); 
+        //make the username char lowercase incase user uses caps lock
+        string inputUser = username.Trim().ToLower();
+        string inputPass = password.Trim();
         try
         {
-            //Check for empty textfield login attempt
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            // Check if file exists first 
+            if (!File.Exists(filePath))
             {
-                MessageBox.Show("Please input Username & Password", "Error!", MessageBoxButtons.OK);
+                MessageBox.Show($"File not found at: {filePath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
-            }
-            //Regex patterns
-            string userPattern = @"^[a-zA-Z0-9]{3,15}$";
-            string passPattern = @"^(?=.*[A-Za-z])(?=.*\d).{6,}$";
-
-            //patten match check
-            if (!Regex.IsMatch(username.Trim(), userPattern) ||
-                !Regex.IsMatch(password.Trim(), passPattern))
+            } 
+            using (var reader = new StreamReader(filePath))
             {
-                MessageBox.Show("Invalid Username or Password format. Please ensure values are correct or Register if you do not already have an account,", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (reader.Peek() >= 0) 
+                {
+                    string fileContents= reader.ReadToEnd();
+                    string[] lines = fileContents.Split(new[] { "\r\n", "\r", "\n" },
+                        StringSplitOptions.RemoveEmptyEntries);
 
-                return false;
+                    foreach (string  line in lines)
+                    {
+                        string[] parts = line.Split(','); ;
+                        if (parts.Length==2)
+                        {
+                            string fileUserName = parts[0].Trim();
+                            string filePassword = parts[1].Trim();
+
+                            if (fileUserName.Equals(inputUser, StringComparison.Ordinal) && 
+                                filePassword.Equals(inputPass, StringComparison.Ordinal))
+                            {
+                                fullName= fileUserName;
+                                return true;
+                            }
+                        }
+                    }
+                }
             }
-            fullName = username.Trim();
-            return true;
+            
+            
         }
         catch (Exception err)
         {
-            //Print exact issue to Visual studio output window for better debugging
+            //Print issue to Visual studio output window for better debugging
             Debug.WriteLine($"Validation Error: {err.Message}");
             fullName = err.Message;
             return false;
         }
+        MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return false;
 
     }
 
