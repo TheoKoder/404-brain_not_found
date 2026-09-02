@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
-using System.IO;
 using System.Windows.Forms;
 
 namespace loginForm_1
@@ -17,89 +18,57 @@ namespace loginForm_1
             _loginPage = loginPage ?? throw new ArgumentNullException(nameof(loginPage));
             lblErrorPassword.Hide();
 
-            // Apply theme automatically when constructor executes
             ApplyCustomStyling();
-        }
-
-        private void ApplyCustomStyling()
-        {
-            // 1. Form Window Background
-            this.BackColor = Color.FromArgb(18, 12, 32);
-
-            // 2. Big Title Label (lblRegister)
-            if (lblRegister != null)
-            {
-                lblRegister.Text = "Create Account";
-                lblRegister.Font = new Font("Segoe UI", 28, FontStyle.Bold | FontStyle.Italic);
-                lblRegister.ForeColor = Color.FromArgb(190, 130, 255); // Bright Neon Lavender
-                lblRegister.AutoSize = true;
-            }
-
-            // 3. TextBoxes (txtNewUserN & txtNewUserP)
-            txtNewUserN.BackColor = Color.FromArgb(32, 26, 52);
-            txtNewUserN.ForeColor = Color.White;
-            txtNewUserN.BorderStyle = BorderStyle.FixedSingle;
-            txtNewUserN.Font = new Font("Segoe UI", 11);
-            //labels
-            lblUserName.ForeColor = Color.FromArgb(220, 220, 240);
-            lblUserName.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            lblPassword.ForeColor = Color.FromArgb(220, 220, 240);
-            lblPassword.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-
-
-            txtNewUserP.BackColor = Color.FromArgb(32, 26, 52);
-            txtNewUserP.ForeColor = Color.White;
-            txtNewUserP.BorderStyle = BorderStyle.FixedSingle;
-            txtNewUserP.Font = new Font("Segoe UI", 11);
-
-            // 4. Register Button
-            btnRegister.BackColor = Color.FromArgb(130, 50, 210);
-            btnRegister.ForeColor = Color.White;
-            btnRegister.FlatStyle = FlatStyle.Flat;
-            btnRegister.FlatAppearance.BorderSize = 0;
-            btnRegister.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-
-            // 5. Error Label Styling
-            lblErrorPassword.ForeColor = Color.FromArgb(255, 100, 100); // Soft Red for readability on dark background
-            lblErrorPassword.Font = new Font("Segoe UI", 9, FontStyle.Italic);
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
             lblErrorPassword.Hide();
-            string newUserName= txtNewUserN.Text.Trim();
+            string newUserName = txtNewUserN.Text.Trim();
             string newUserPass = txtNewUserP.Text.Trim();
 
-            if (!this.isLegitRegistration(newUserName, newUserPass))
+            // Validate format using regex
+            if (!isLegitRegistration(newUserName, newUserPass))
             {
                 return;
             }
 
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "database.txt");
-
             try
             {
-                // Append mode = true ensures existing users are NOT overwritten
-                using (StreamWriter writer = new StreamWriter(filePath, append: true))
+                // 1. Load existing users from the serialized file into a C# List<User>
+                List<User> currentUsers = DataManager.LoadUsers();
+
+                // 2. Verify that the username does not already exist in the list
+                if (currentUsers.Any(u => u.Username.Equals(newUserName, StringComparison.OrdinalIgnoreCase)))
                 {
-                    writer.WriteLine($"\n{newUserName.ToLower()},{newUserPass}");
+                    ShowValidationError("Username already exists. Please choose another one.");
+                    return;
                 }
 
-                MessageBox.Show("Registration successful! You can now log in.", 
-                    "Success", 
-                    MessageBoxButtons.OK, 
-                    MessageBoxIcon.Information
-                    );
-                _loginPage.Show();
-                this.Close();   
-                
+                // 3. Create a new User object and add it to our List<User>
+                currentUsers.Add(new User(newUserName, newUserPass));
+
+                // 4. Save the updated list using C# Serialization
+                if (DataManager.SaveUsers(currentUsers))
+                {
+                    MessageBox.Show("Registration successful! You can now log in.",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    _loginPage.RefreshUserData();
+                    _loginPage.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to save user credentials.", "Save Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Registration File Error: {ex.Message}");
-                MessageBox.Show($"Failed to save user credentials: {ex.Message}",
-                    "File Error", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                Debug.WriteLine($"Registration Error: {ex.Message}");
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -107,25 +76,21 @@ namespace loginForm_1
         {
             try
             {
-                // Check for empty fields
                 if (string.IsNullOrWhiteSpace(regUser) || string.IsNullOrWhiteSpace(regPass))
                 {
-                    ShowValidationError("Please Enter Username & Password values");
+                    ShowValidationError("Please enter both Username and Password.");
                     return false;
                 }
 
-                // Regex patterns
                 string userPattern = @"^[a-zA-Z0-9]{3,15}$";
                 string passPattern = @"^(?=.*[*&^%@!#]).{3,15}$";
 
-                // Username validation
-                if (!Regex.IsMatch(regUser.Trim().ToLower(), userPattern))
+                if (!Regex.IsMatch(regUser, userPattern))
                 {
                     ShowValidationError("Invalid Username. Must be 3 - 15 alphanumeric characters.");
                     return false;
                 }
 
-                // Password validation
                 if (!Regex.IsMatch(regPass, passPattern))
                 {
                     lblErrorPassword.Text = "Password must be 3-15 characters long and contain at least one special character (*&^%@!#).";
@@ -137,9 +102,7 @@ namespace loginForm_1
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Validation Error: {ex.Message}");
-                MessageBox.Show($"Failed to save user credentials: {ex.Message}", "File Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Debug.WriteLine($"Validation Exception: {ex.Message}");
                 return false;
             }
         }
@@ -149,13 +112,41 @@ namespace loginForm_1
             MessageBox.Show(m, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        private void RegistrationPage_Load(object sender, EventArgs e)
+        private void ApplyCustomStyling()
         {
-           // Application.Exit();
-        }
+            this.BackColor = Color.FromArgb(18, 12, 32);
 
-        private void lblErrorPassword_Click(object sender, EventArgs e)
-        {
+            if (lblRegister != null)
+            {
+                lblRegister.Text = "Create Account";
+                lblRegister.Font = new Font("Segoe UI", 28, FontStyle.Bold | FontStyle.Italic);
+                lblRegister.ForeColor = Color.FromArgb(190, 130, 255);
+                lblRegister.AutoSize = true;
+            }
+
+            txtNewUserN.BackColor = Color.FromArgb(32, 26, 52);
+            txtNewUserN.ForeColor = Color.White;
+            txtNewUserN.BorderStyle = BorderStyle.FixedSingle;
+            txtNewUserN.Font = new Font("Segoe UI", 11);
+
+            lblUserName.ForeColor = Color.FromArgb(220, 220, 240);
+            lblUserName.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            lblPassword.ForeColor = Color.FromArgb(220, 220, 240);
+            lblPassword.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+
+            txtNewUserP.BackColor = Color.FromArgb(32, 26, 52);
+            txtNewUserP.ForeColor = Color.White;
+            txtNewUserP.BorderStyle = BorderStyle.FixedSingle;
+            txtNewUserP.Font = new Font("Segoe UI", 11);
+
+            btnRegister.BackColor = Color.FromArgb(130, 50, 210);
+            btnRegister.ForeColor = Color.White;
+            btnRegister.FlatStyle = FlatStyle.Flat;
+            btnRegister.FlatAppearance.BorderSize = 0;
+            btnRegister.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+
+            lblErrorPassword.ForeColor = Color.FromArgb(255, 100, 100);
+            lblErrorPassword.Font = new Font("Segoe UI", 9, FontStyle.Italic);
         }
     }
 }

@@ -112,7 +112,7 @@
             Controls.Add(lblUserName);
             Name = "RegistrationPage";
             Text = "RegistrationPage";
-            Load += RegistrationPage_Load;
+            
             ResumeLayout(false);
             PerformLayout();
         }
