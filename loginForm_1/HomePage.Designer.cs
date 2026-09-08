@@ -48,6 +48,10 @@
             pictureBox6 = new PictureBox();
             lblWelcomeUser = new Label();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            btnUploadSong = new Button();
+            lblTotalPlaylists = new Label();
+            lblTotalTracks = new Label();
+            lblTopGenre = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
@@ -247,11 +251,52 @@
             flowLayoutPanel1.Size = new Size(691, 573);
             flowLayoutPanel1.TabIndex = 12;
             // 
+            // btnUploadSong
+            // 
+            btnUploadSong.Location = new Point(161, 66);
+            btnUploadSong.Name = "btnUploadSong";
+            btnUploadSong.Size = new Size(100, 23);
+            btnUploadSong.TabIndex = 13;
+            btnUploadSong.Text = "Upload Song";
+            btnUploadSong.UseVisualStyleBackColor = true;
+            btnUploadSong.Click += btnUploadSong_Click;
+            // 
+            // lblTotalPlaylists
+            // 
+            lblTotalPlaylists.AutoSize = true;
+            lblTotalPlaylists.Location = new Point(161, 107);
+            lblTotalPlaylists.Name = "lblTotalPlaylists";
+            lblTotalPlaylists.Size = new Size(77, 15);
+            lblTotalPlaylists.TabIndex = 14;
+            lblTotalPlaylists.Text = "Total Playlists";
+            // 
+            // lblTotalTracks
+            // 
+            lblTotalTracks.AutoSize = true;
+            lblTotalTracks.Location = new Point(161, 135);
+            lblTotalTracks.Name = "lblTotalTracks";
+            lblTotalTracks.Size = new Size(67, 15);
+            lblTotalTracks.TabIndex = 15;
+            lblTotalTracks.Text = "Total Tracks";
+            // 
+            // lblTopGenre
+            // 
+            lblTopGenre.AutoSize = true;
+            lblTopGenre.Location = new Point(161, 162);
+            lblTopGenre.Name = "lblTopGenre";
+            lblTopGenre.Size = new Size(60, 15);
+            lblTopGenre.TabIndex = 16;
+            lblTopGenre.Text = "Top Genre";
+            // 
             // HomePage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1320, 675);
+            Controls.Add(lblTopGenre);
+            Controls.Add(lblTotalTracks);
+            Controls.Add(lblTotalPlaylists);
+            Controls.Add(btnUploadSong);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(lblWelcomeUser);
             Controls.Add(panel6);
@@ -296,5 +341,9 @@
         private Button btnSadSongs;
         private Button btnStudy;
         private FlowLayoutPanel flowLayoutPanel1;
+        private Button btnUploadSong;
+        private Label lblTotalPlaylists;
+        private Label lblTotalTracks;
+        private Label lblTopGenre;
     }
 }
