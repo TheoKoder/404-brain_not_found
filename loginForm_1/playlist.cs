@@ -13,9 +13,17 @@ namespace loginForm_1
     {
         private PlaylistModel currentPlaylist;
         private string currentPlaylistName;
-        
+
         // DECLARE IT HERE:
         private string playlistMetadataFile;
+
+        //2d-Array
+        private string[,] songsArray;
+        //Songs count variable
+        int currentSongCount;
+
+        //ascending order variable
+        private bool isAscending = true;
 
         // Constructor accepting the full PlaylistModel from HomePage
         public Playlist(PlaylistModel playlist)
@@ -33,47 +41,61 @@ namespace loginForm_1
 
         public Playlist(string playlistName) : this(new PlaylistModel(playlistName))
         {
+            LoadSongsList();
         }
 
         // Default constructor
         public Playlist() : this("My Playlist")
         {
         }
-        
+
 
         private void Playlist_Load(object sender, EventArgs e)
         {
-            // 1. Display the playlist name in the title label
+            // Reads text file layout entries into the List object structure first
+            LoadPlaylistMetadata();
+
+            // Maps the loaded data into your 2D Array matrix and DataGridView cells
+            LoadSongsList();
+
+            // Modifies metric labels       
+            UpdateTrackCount();
+
             if (lblPlaylistTitle != null)
             {
                 lblPlaylistTitle.Text = currentPlaylistName;
             }
 
-            // 2. Load and apply custom colors and fonts
             ApplyTheme();
-
-            // 3. Read or create the metadata file for date and cover image
-            LoadPlaylistMetadata();
-
-            // 4. Initialize song list and track count display
-            LoadSongsList();
-            UpdateTrackCount();
         }
 
         private void LoadSongsList()
         {
-            if (lstSongs == null) return;
-            lstSongs.Items.Clear();
+            if (dgvSongs == null || currentPlaylist == null) return;
+            dgvSongs.Rows.Clear();
+            int totalSongs = currentPlaylist.Songs.Count;
+            if (totalSongs == 0) return;
 
-            // If there are no songs yet, keep the list empty. This is a safe placeholder.
-            // In a real implementation, populate lstSongs.Items from your data source.
-            if (currentPlaylist != null && currentPlaylist.Songs != null && currentPlaylist.Songs.Count > 0)
+            //populate the array
+            songsArray = new string[totalSongs, 4];
+            for (int i = 0; i < totalSongs; i++)
             {
-                foreach (var song in currentPlaylist.Songs)
-                {
-                    // Displays formatted song info in the list box
-                    lstSongs.Items.Add($"{song.Name} - {song.Artist} ({song.Genre})");
-                }
+                Song currentSong = currentPlaylist.Songs[i];
+
+                songsArray[i, 0] = currentSong.Name ?? "Unknown";
+                songsArray[i, 1] = currentSong.Artist ?? "Unknown";
+                songsArray[i, 2] = currentSong.Album ?? "Unknown";
+                songsArray[i, 3] = currentSong.Genre ?? "Unknown";
+            }
+            //Populate the datagridview
+            for (int j = 0; j < totalSongs; j++)
+            {
+                dgvSongs.Rows.Add(
+                    songsArray[j, 0],
+                    songsArray[j, 1],
+                    songsArray[j, 2],
+                    songsArray[j, 3]
+                    );
             }
         }
 
@@ -89,18 +111,17 @@ namespace loginForm_1
         {
             try
             {
-                // If the model already has an image (e.g. assigned from Form2), load it first
                 if (currentPlaylist != null && currentPlaylist.CoverImage != null && picCoverArt != null)
                 {
                     picCoverArt.Image = currentPlaylist.CoverImage;
                     picCoverArt.SizeMode = PictureBoxSizeMode.Zoom;
                 }
 
-                // Check for saved text metadata
                 if (File.Exists(playlistMetadataFile))
                 {
                     using (StreamReader reader = new StreamReader(playlistMetadataFile))
                     {
+                        // Read top level metadata components
                         string creationDate = reader.ReadLine();
                         string imagePath = reader.ReadLine();
 
@@ -109,16 +130,42 @@ namespace loginForm_1
                             lblCreationDate.Text = "Created: " + creationDate;
                         }
 
-                        // Restore cover art if path is valid and picture box isn't already set
                         if (!string.IsNullOrEmpty(imagePath) && File.Exists(imagePath) && picCoverArt != null && picCoverArt.Image == null)
                         {
                             picCoverArt.ImageLocation = imagePath;
                             picCoverArt.SizeMode = PictureBoxSizeMode.Zoom;
                         }
+
+                        // 🟢 NEW: Read all subsequent tracks preserved in the text file layout
+                        if (currentPlaylist != null)
+                        {
+                            currentPlaylist.Songs.Clear(); // Clear defaults before populating
+
+                            string line;
+                            while ((line = reader.ReadLine()) != null)
+                            {
+                                if (string.IsNullOrWhiteSpace(line)) continue;
+
+                                // Split by the delimiter token
+                                string[] parts = line.Split('|');
+                                if (parts.Length >= 5)
+                                {
+                                    Song loadedSong = new Song(
+                                        name: parts[0],
+                                        artist: parts[1],
+                                        album: parts[2],
+                                        genre: parts[3],
+                                        filePath: parts[4]
+                                    );
+                                    currentPlaylist.Songs.Add(loadedSong);
+                                }
+                            }
+                        }
                     }
                 }
                 else
                 {
+                    // Fallback generation for new file records
                     string todayTimestamp = DateTime.Now.ToShortDateString();
                     if (lblCreationDate != null)
                     {
@@ -210,37 +257,82 @@ namespace loginForm_1
             lblTrackCount.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
 
             // --- 4. LISTBOX / SONG LIST ---
-            lstSongs.BackColor = darkPanel;
-            lstSongs.ForeColor = textWhite;
-            lstSongs.BorderStyle = BorderStyle.FixedSingle;
-            lstSongs.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular);
-
+            if (lstSongs != null)
+            {
+                lstSongs.BackColor = darkPanel;
+                lstSongs.ForeColor = textWhite;
+                lstSongs.BorderStyle = BorderStyle.FixedSingle;
+                lstSongs.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular);
+            }
             // --- 5. COVER ART ---
             picCoverArt.BackColor = darkPanel;
             picCoverArt.BorderStyle = BorderStyle.FixedSingle;
 
             // --- 6. HERTZPLAY BUTTON STYLING ---
             Button[] buttons = {
-        btnUploadCover, btnAddSong, btnSort,
-        btnDeletePlaylist, btnPlaySong, btnDeletePlaylist, btnSort
-    };
+    btnUploadCover,
+    btnAddSong,
+    btnSort,
+    btnDeletePlaylist,
+    btnPlaySong
+};
 
-            foreach (Button btn in buttons)
+            if (btnUploadCover != null)
             {
-                if (btn != null)
-                {
-                    btn.FlatStyle = FlatStyle.Flat;
-                    btn.FlatAppearance.BorderSize = 0;
-                    btn.BackColor = vibrantPurple;
-                    btn.ForeColor = textWhite;
-                    btn.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-                    btn.Cursor = Cursors.Hand;
-                }
+                btnUploadCover.FlatStyle = FlatStyle.Flat;
+                btnUploadCover.FlatAppearance.BorderSize = 0;
+                btnUploadCover.BackColor = vibrantPurple;
+                btnUploadCover.ForeColor = textWhite;
+                btnUploadCover.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+                btnUploadCover.Cursor = Cursors.Hand;
             }
 
+            if (btnAddSong != null)
+            {
+                btnAddSong.FlatStyle = FlatStyle.Flat;
+                btnAddSong.FlatAppearance.BorderSize = 0;
+                btnAddSong.BackColor = vibrantPurple;
+                btnAddSong.ForeColor = textWhite;
+                btnAddSong.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+                btnAddSong.Cursor = Cursors.Hand;
+            }
+
+            if (btnSort != null)
+            {
+                btnSort.FlatStyle = FlatStyle.Flat;
+                btnSort.FlatAppearance.BorderSize = 0;
+                btnSort.BackColor = vibrantPurple;
+                btnSort.ForeColor = textWhite;
+                btnSort.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+                btnSort.Cursor = Cursors.Hand;
+            }
+
+            if (btnPlaySong != null)
+            {
+                btnPlaySong.FlatStyle = FlatStyle.Flat;
+                btnPlaySong.FlatAppearance.BorderSize = 0;
+                btnPlaySong.BackColor = vibrantPurple;
+                btnPlaySong.ForeColor = textWhite;
+                btnPlaySong.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+                btnPlaySong.Cursor = Cursors.Hand;
+            }
+
+            if (btnDeletePlaylist != null)
+            {
+                btnDeletePlaylist.FlatStyle = FlatStyle.Flat;
+                btnDeletePlaylist.FlatAppearance.BorderSize = 0;
+                btnDeletePlaylist.BackColor = deleteRed; // Keeps delete button red
+                btnDeletePlaylist.ForeColor = textWhite;
+                btnDeletePlaylist.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+                btnDeletePlaylist.Cursor = Cursors.Hand;
+            }
+
+
             // Optional: Keep Delete buttons visually distinct with dark red flat fill
-            if (btnDeletePlaylist != null) btnDeletePlaylist.BackColor = deleteRed;
-            if (btnDeletePlaylist != null) btnDeletePlaylist.BackColor = deleteRed;
+            if (btnDeletePlaylist != null)
+            {
+                btnDeletePlaylist.BackColor = deleteRed;
+            }
         }
 
         private void pnlLeft_Paint(object sender, PaintEventArgs e)
@@ -289,6 +381,326 @@ namespace loginForm_1
 
         }
 
-        
+        private void btnAddSong_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "Select Audio File";
+                openFileDialog.Filter = "Audio Files (*.mp3; *.wav)|*.mp3; *.wav";
+                openFileDialog.Multiselect = false;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = openFileDialog.FileName;
+
+                    // Extract just the file name without the path and extension to serve as the default track name
+                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(selectedFilePath);
+
+                    // Create a new Song object, storing the true system path in FilePath
+                    Song newSong = new Song(
+                        name: fileNameWithoutExtension,
+                        artist: "Unknown Artist",
+                        album: "Unknown Album",
+                        genre: "Unknown Genre",
+                        filePath: selectedFilePath
+                    );
+
+                    // Add it to your dynamic list, 2D array, and DataGridView
+                    AddSongToPlaylist(newSong);
+                }
+            }
+        }
+        public void AddSongToPlaylist(Song newSong)
+        {
+            if (newSong == null || currentPlaylist == null
+                || currentPlaylist.Songs == null) return;
+
+            // Add to the core dynamic list (this retains the critical FilePath)
+            currentPlaylist.Songs.Add(newSong);
+
+            // Temporarily turn off the event to prevent layout loop crashes
+            this.dgvSongs.CellValueChanged -= this.dgvSongs_CellValueChanged;
+
+            currentSongCount = currentPlaylist.Songs.Count;
+            string[,] newSongsArray = new string[currentSongCount, 4];
+
+            // Migrate data from the old 2D array reference
+            if (songsArray != null)
+            {
+                int oldSongCount = songsArray.GetLength(0);
+                for (int i = 0; i < oldSongCount; i++)
+                {
+                    newSongsArray[i, 0] = songsArray[i, 0];
+                    newSongsArray[i, 1] = songsArray[i, 1];
+                    newSongsArray[i, 2] = songsArray[i, 2];
+                    newSongsArray[i, 3] = songsArray[i, 3];
+                }
+            }
+
+            // Inject the new song metadata text fields into the 2D array matrix
+            int newRowIndex = currentSongCount - 1;
+            newSongsArray[newRowIndex, 0] = newSong.Name ?? "Unknown Track";
+            newSongsArray[newRowIndex, 1] = newSong.Artist ?? "Unknown Artist";
+            newSongsArray[newRowIndex, 2] = newSong.Album ?? "Unknown Album";
+            newSongsArray[newRowIndex, 3] = newSong.Genre ?? "Unknown Genre";
+
+            songsArray = newSongsArray;
+
+            // Push the updated array row detailsto the view layout
+            dgvSongs.Rows.Add(
+                songsArray[newRowIndex, 0],
+                songsArray[newRowIndex, 1],
+                songsArray[newRowIndex, 2],
+                songsArray[newRowIndex, 3]
+            );
+
+            // Turn the listener back on
+            this.dgvSongs.CellValueChanged += this.dgvSongs_CellValueChanged;
+
+            UpdateTrackCount();
+        }
+        private void dgvSongs_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            //  Ignore header rows and invalid clicks
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            //  Make sure the 2D array is loaded
+            if (songsArray == null || e.RowIndex >= songsArray.GetLength(0) || e.ColumnIndex >= songsArray.GetLength(1)) return;
+
+            //  Get the new text from the DataGridView cell
+            object cellValue = dgvSongs.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            string updatedText = cellValue != null ? cellValue.ToString() : "";
+
+            // Save the change into the 2D array
+            songsArray[e.RowIndex, e.ColumnIndex] = updatedText;
+
+            // Update your underlying object List<Song>
+            if (currentPlaylist != null && currentPlaylist.Songs != null && e.RowIndex < currentPlaylist.Songs.Count)
+            {
+                Song targetedSong = currentPlaylist.Songs[e.RowIndex];
+
+                switch (e.ColumnIndex)
+                {
+                    case 0: targetedSong.Name = updatedText; break;
+                    case 1: targetedSong.Artist = updatedText; break;
+                    case 2: targetedSong.Album = updatedText; break;
+                    case 3: targetedSong.Genre = updatedText; break;
+                }
+            }
+        }
+        private void SavePlaylistDataToFile()
+        {
+            try
+            {
+                // Recreate the metadata file layout 
+                string creationDate = lblCreationDate != null ? lblCreationDate.Text.Replace("Created: ", "").Trim() : DateTime.Now.ToShortDateString();
+
+                // Get image path directly from PictureBox if model path isn't stored as a string property
+                string coverPath = picCoverArt != null && !string.IsNullOrEmpty(picCoverArt.ImageLocation)
+                    ? picCoverArt.ImageLocation
+                    : "";
+
+                using (var writer = new StreamWriter(playlistMetadataFile, false))
+                {
+                    writer.WriteLine(creationDate);
+                    writer.WriteLine(coverPath);
+
+                    // Loop through the list to serialize each song attribute record
+                    if (currentPlaylist != null && currentPlaylist.Songs != null)
+                    {
+                        foreach (Song song in currentPlaylist.Songs)
+                        {
+                            // Format: Name|Artist|Album|Genre|FilePath
+                            string songLine = $"{song.Name}|{song.Artist}|{song.Album}|{song.Genre}|{song.FilePath}";
+                            writer.WriteLine(songLine);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving song data: {ex.Message}", "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnDeletePlaylist_Click_1(object sender, EventArgs e)
+        {
+            if (dgvSongs.CurrentRow == null || dgvSongs.CurrentRow.Index < 0 || dgvSongs.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Please select a track to remove from this playlist.", "Selection Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int selectedIndex = dgvSongs.CurrentRow.Index;
+
+            var result = MessageBox.Show("Remove this song from the current playlist?", "Confirm Removal", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result != DialogResult.Yes) return;
+
+            // Detach event handler to avoid triggering cell value changes
+            this.dgvSongs.CellValueChanged -= this.dgvSongs_CellValueChanged;
+
+            //  Remove ONLY from active playlist memory model
+            if (currentPlaylist?.Songs != null && selectedIndex < currentPlaylist.Songs.Count)
+            {
+                currentPlaylist.Songs.RemoveAt(selectedIndex);
+            }
+
+            //  Remove from UI DataGridView
+            dgvSongs.Rows.RemoveAt(selectedIndex);
+
+            //  Re-attach event handler
+            this.dgvSongs.CellValueChanged += this.dgvSongs_CellValueChanged;
+
+            // Re-populate 2D array from scratch to keep indices aligned (optional if array is still used)
+            LoadSongsList();
+
+            // Save modified playlist structure to file and update labels
+            SavePlaylistDataToFile();
+            UpdateTrackCount();
+
+            MessageBox.Show("Track removed from current playlist.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void axWindowsMediaPlayer1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPlaySong_Click(object sender, EventArgs e)
+        {
+            // Verify a song row is selected
+            if (dgvSongs.CurrentRow == null || dgvSongs.CurrentRow.Index < 0 || dgvSongs.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Please select a song from the list to play.",
+                    "Select Song", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int selectedIndex = dgvSongs.CurrentRow.Index;
+
+            // Validate selected index against the playlist model
+            if (currentPlaylist != null && currentPlaylist.Songs != null && selectedIndex < currentPlaylist.Songs.Count)
+            {
+                Song songToPlay = currentPlaylist.Songs[selectedIndex];
+
+                // Check if the audio file path exists on disk
+                if (File.Exists(songToPlay.FilePath))
+                {
+                    // Set URL to start playback automatically
+                    axWindowsMediaPlayer1.URL = songToPlay.FilePath;
+                    axWindowsMediaPlayer1.Ctlcontrols.play();
+                }
+                else
+                {
+                    MessageBox.Show($"Audio file not found at:\n{songToPlay.FilePath}",
+                        "File Missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void SortSongsByProperty(string propertyName)
+        {
+            if (currentPlaylist?.Songs == null || currentPlaylist.Songs.Count <= 1) return;
+
+            //  Sort the underlying dynamic List<Song>
+            switch (propertyName.ToLower())
+            {
+                case "title":
+                case "name":
+                    currentPlaylist.Songs = isAscending
+                        ? currentPlaylist.Songs.OrderBy(s => s.Name).ToList()
+                        : currentPlaylist.Songs.OrderByDescending(s => s.Name).ToList();
+                    break;
+
+                case "artist":
+                    currentPlaylist.Songs = isAscending
+                        ? currentPlaylist.Songs.OrderBy(s => s.Artist).ToList()
+                        : currentPlaylist.Songs.OrderByDescending(s => s.Artist).ToList();
+                    break;
+
+                case "album":
+                    currentPlaylist.Songs = isAscending
+                        ? currentPlaylist.Songs.OrderBy(s => s.Album).ToList()
+                        : currentPlaylist.Songs.OrderByDescending(s => s.Album).ToList();
+                    break;
+
+                case "genre":
+                    currentPlaylist.Songs = isAscending
+                        ? currentPlaylist.Songs.OrderBy(s => s.Genre).ToList()
+                        : currentPlaylist.Songs.OrderByDescending(s => s.Genre).ToList();
+                    break;
+
+                default:
+                    return;
+            }
+
+            // change direction for the next sort click
+            isAscending = !isAscending;
+
+            // Detach event listener to avoid premature CellValueChanged triggers during refresh
+            if (this.dgvSongs != null)
+            {
+                this.dgvSongs.CellValueChanged -= this.dgvSongs_CellValueChanged;
+            }
+
+            // Sync and re-populate the 2D array and DataGridView UI from sorted List
+            LoadSongsList();
+
+            // Re-attach event listener
+            if (this.dgvSongs != null)
+            {
+                this.dgvSongs.CellValueChanged += this.dgvSongs_CellValueChanged;
+            }
+
+            // Persist the newly sorted list to file
+            SavePlaylistDataToFile();
+        }
+
+        private void btnSort_Click(object sender, EventArgs e)
+        {
+            ContextMenuStrip sortMenu = new ContextMenuStrip();
+
+            sortMenu.Items.Add("Sort by Name", null, (s, args) => SortSongsByProperty("title"));
+            sortMenu.Items.Add("Sort by Artist", null, (s, args) => SortSongsByProperty("artist"));
+            sortMenu.Items.Add("Sort by Album", null, (s, args) => SortSongsByProperty("album"));
+            sortMenu.Items.Add("Sort by Genre", null, (s, args) => SortSongsByProperty("genre"));
+
+            // Show menu directly beneath the sort button
+            if (sender is Control btn)
+            {
+                sortMenu.Show(btn, new Point(0, btn.Height));
+            }
+        }
+
+        private void axWindowsMediaPlayer1_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            //Verify a song row is selected
+            if (dgvSongs.CurrentRow == null || dgvSongs.CurrentRow.Index < 0 || dgvSongs.CurrentRow.IsNewRow)
+            {
+                MessageBox.Show("Please select a song from the list to play.", "Select Song", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            int selectedIndex = dgvSongs.CurrentRow.Index;
+
+            //  Validate selected index against the playlist model
+            if (currentPlaylist != null && currentPlaylist.Songs != null && selectedIndex < currentPlaylist.Songs.Count)
+            {
+                Song songToPlay = currentPlaylist.Songs[selectedIndex];
+
+                //  Check if the audio file path exists on disk
+                if (System.IO.File.Exists(songToPlay.FilePath))
+                {
+                    // Set URL to start playback automatically
+                    axWindowsMediaPlayer1.URL = songToPlay.FilePath;
+                    axWindowsMediaPlayer1.Ctlcontrols.play();
+                }
+                else
+                {
+                    MessageBox.Show($"Audio file not found at:\n{songToPlay.FilePath}",
+                        "File Missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }
+

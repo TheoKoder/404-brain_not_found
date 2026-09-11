@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Playlist));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             pnlHeader = new Panel();
             lblCreationDate = new Label();
             lblPlaylistTitle = new Label();
@@ -42,12 +43,19 @@
             btnUploadCover = new Button();
             picCoverArt = new PictureBox();
             lblTrackCount = new Label();
-            lstSongs = new ListBox();
+            dgvSongs = new DataGridView();
+            ColName = new DataGridViewTextBoxColumn();
+            ColArtist = new DataGridViewTextBoxColumn();
+            colAlbum = new DataGridViewTextBoxColumn();
+            colGenre = new DataGridViewTextBoxColumn();
+            dataGridView2 = new DataGridView();
             pnlHeader.SuspendLayout();
             pnlPlayback.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer1).BeginInit();
             pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picCoverArt).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvSongs).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // pnlHeader
@@ -100,6 +108,7 @@
             axWindowsMediaPlayer1.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer1.OcxState");
             axWindowsMediaPlayer1.Size = new Size(416, 46);
             axWindowsMediaPlayer1.TabIndex = 8;
+            axWindowsMediaPlayer1.Enter += axWindowsMediaPlayer1_Enter;
             // 
             // btnPlaySong
             // 
@@ -109,6 +118,7 @@
             btnPlaySong.TabIndex = 7;
             btnPlaySong.Text = "Play Song";
             btnPlaySong.UseVisualStyleBackColor = true;
+            btnPlaySong.Click += btnPlaySong_Click;
             // 
             // btnDeletePlaylist
             // 
@@ -118,6 +128,7 @@
             btnDeletePlaylist.TabIndex = 6;
             btnDeletePlaylist.Text = "Delete";
             btnDeletePlaylist.UseVisualStyleBackColor = true;
+            btnDeletePlaylist.Click += btnDeletePlaylist_Click_1;
             // 
             // btnAddSong
             // 
@@ -127,6 +138,7 @@
             btnAddSong.TabIndex = 4;
             btnAddSong.Text = "Add";
             btnAddSong.UseVisualStyleBackColor = true;
+            btnAddSong.Click += btnAddSong_Click;
             // 
             // btnSort
             // 
@@ -136,6 +148,7 @@
             btnSort.TabIndex = 5;
             btnSort.Text = "Sort";
             btnSort.UseVisualStyleBackColor = true;
+            btnSort.Click += btnSort_Click;
             // 
             // pnlLeft
             // 
@@ -167,27 +180,72 @@
             // lblTrackCount
             // 
             lblTrackCount.AutoSize = true;
+            lblTrackCount.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblTrackCount.Location = new Point(720, 95);
             lblTrackCount.Name = "lblTrackCount";
-            lblTrackCount.Size = new Size(72, 15);
+            lblTrackCount.Size = new Size(69, 13);
             lblTrackCount.TabIndex = 3;
             lblTrackCount.Text = "Total Tracks:";
             lblTrackCount.Click += lblTrackCount_Click;
             // 
-            // lstSongs
+            // dgvSongs
             // 
-            lstSongs.FormattingEnabled = true;
-            lstSongs.Location = new Point(226, 85);
-            lstSongs.Name = "lstSongs";
-            lstSongs.Size = new Size(488, 229);
-            lstSongs.TabIndex = 4;
+            dgvSongs.AllowUserToOrderColumns = true;
+            dgvSongs.BackgroundColor = SystemColors.ActiveCaption;
+            dgvSongs.BorderStyle = BorderStyle.Fixed3D;
+            dgvSongs.CellBorderStyle = DataGridViewCellBorderStyle.Raised;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.Padding = new Padding(0, 3, 3, 0);
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvSongs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvSongs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvSongs.Columns.AddRange(new DataGridViewColumn[] { ColName, ColArtist, colAlbum, colGenre });
+            dgvSongs.Location = new Point(226, 80);
+            dgvSongs.Name = "dgvSongs";
+            dgvSongs.Size = new Size(488, 234);
+            dgvSongs.TabIndex = 4;
+            dgvSongs.CellValueChanged += dgvSongs_CellValueChanged;
+            // 
+            // ColName
+            // 
+            ColName.HeaderText = "Song Name";
+            ColName.Name = "ColName";
+            // 
+            // ColArtist
+            // 
+            ColArtist.HeaderText = "Artist";
+            ColArtist.Name = "ColArtist";
+            // 
+            // colAlbum
+            // 
+            colAlbum.HeaderText = "Album";
+            colAlbum.Name = "colAlbum";
+            // 
+            // colGenre
+            // 
+            colGenre.HeaderText = "Genre";
+            colGenre.Name = "colGenre";
+            // 
+            // dataGridView2
+            // 
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Location = new Point(226, 80);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.Size = new Size(8, 8);
+            dataGridView2.TabIndex = 5;
             // 
             // Playlist
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(lstSongs);
+            Controls.Add(dataGridView2);
+            Controls.Add(dgvSongs);
             Controls.Add(lblTrackCount);
             Controls.Add(pnlLeft);
             Controls.Add(pnlPlayback);
@@ -201,6 +259,8 @@
             ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer1).EndInit();
             pnlLeft.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picCoverArt).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvSongs).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -222,5 +282,12 @@
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
         private Label lblTrackCount;
         private ListBox lstSongs;
+        private DataGridView dataGridView1;
+        private DataGridView dataGridView2;
+        private DataGridView dgvSongs;
+        private DataGridViewTextBoxColumn ColName;
+        private DataGridViewTextBoxColumn ColArtist;
+        private DataGridViewTextBoxColumn colAlbum;
+        private DataGridViewTextBoxColumn colGenre;
     }
 }
